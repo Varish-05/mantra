@@ -1,64 +1,127 @@
 @import "tailwindcss";
 
 :root {
-  --background: #F8FAFC;
-  --foreground: #0F172A;
-  --card: #FFFFFF;
-  --card-foreground: #0F172A;
-  --popover: #FFFFFF;
-  --popover-foreground: #0F172A;
-  --primary: #1E3A8A;
-  --primary-foreground: #F8FAFC;
-  --secondary: #64748B;
-  --secondary-foreground: #0F172A;
-  --muted: #E2E8F0;
-  --muted-foreground: #64748B;
-  --accent: #3B82F6;
-  --accent-foreground: #FFFFFF;
-  --destructive: #EF4444;
-  --destructive-foreground: #FFFFFF;
-  --border: #E2E8F0;
-  --radius: 0.5rem;
-}
-
-.dark {
-  --background: #0B0F19;
-  --foreground: #E2E8F0;
-  --card: #131B2E;
-  --card-foreground: #E2E8F0;
-  --popover: #131B2E;
-  --popover-foreground: #E2E8F0;
+  --background: #060913;
+  --foreground: #F8FAFC;
+  
+  --card: #0D1324;
+  --card-foreground: #F8FAFC;
+  
   --primary: #3B82F6;
   --primary-foreground: #FFFFFF;
+  
   --secondary: #1E293B;
-  --secondary-foreground: #E2E8F0;
-  --muted: #1E293B;
-  --muted-foreground: #94A3B8;
-  --accent: #1E3A8A;
+  --secondary-foreground: #F8FAFC;
+  
+  --muted: #0F172A;
+  --muted-foreground: #64748B;
+  
+  --accent: #1D4ED8;
   --accent-foreground: #FFFFFF;
+  
   --destructive: #EF4444;
   --destructive-foreground: #FFFFFF;
-  --border: #1E293B;
+  
+  --border: rgba(255, 255, 255, 0.05);
 }
 
 body {
-  background-color: var(--background);
-  color: var(--foreground);
+  background-color: #060913;
+  color: #E2E8F0;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  overflow-x: hidden;
+  /* Cyber Grid Background Design */
+  background-image: 
+    linear-gradient(to right, rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
 
-/* Glassmorphism custom classes */
-.glass {
-  background: rgba(19, 27, 46, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+/* Premium Neumorphic / Glassmorphic Cards */
+.cyber-card {
+  background: rgba(13, 19, 36, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.glass-light {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+.cyber-card:hover {
+  border-color: rgba(59, 130, 246, 0.25);
+  box-shadow: 0 15px 35px -5px rgba(59, 130, 246, 0.08);
+  transform: translateY(-2px);
+}
+
+/* Specific glows */
+.glow-blue {
+  box-shadow: 0 0 25px -5px rgba(59, 130, 246, 0.15);
+}
+.glow-red {
+  box-shadow: 0 0 25px -5px rgba(239, 68, 68, 0.15);
+}
+.glow-amber {
+  box-shadow: 0 0 25px -5px rgba(245, 158, 11, 0.15);
+}
+.glow-emerald {
+  box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.15);
+}
+
+/* Gradient text */
+.text-gradient {
+  background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 50%, #1D4ED8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-danger {
+  background: linear-gradient(135deg, #F87171 0%, #EF4444 50%, #B91C1C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-success {
+  background: linear-gradient(135deg, #34D399 0%, #10B981 50%, #047857 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Cyber pulse node */
+@keyframes cyber-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+    filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.6));
+  }
+}
+
+.cyber-pulse-node {
+  animation: cyber-pulse 2s infinite ease-in-out;
+}
+
+/* Glow lines */
+.glow-line-blue::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  width: 80%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #3B82F6, transparent);
+  filter: blur(1px);
+}
+
+.glow-line-red::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  width: 80%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #EF4444, transparent);
+  filter: blur(1px);
 }
