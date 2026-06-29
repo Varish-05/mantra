@@ -1,0 +1,7 @@
+backend/
+docker-compose.yml
+start.ps1
+deploy.ps1
+walkthrough.md
+task.md
+implementation_plan.md
