@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  db:
+    image: pgvector/pgvector:16-pgvector
+    container_name: mantra-db
+    environment:
+      POSTGRES_DB: mantra
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_secure_password_1337
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d mantra"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: mantra-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: mantra-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres_secure_password_1337@db:5432/mantra
+      - DATABASE_SYNC_URL=postgresql+psycopg2://postgres:postgres_secure_password_1337@db:5432/mantra
+      - REDIS_URL=redis://redis:6379/0
+      - SECRET_KEY=super_secret_session_key_for_jwt_tokens_2026_change_in_prod
+      - ACCESS_TOKEN_EXPIRE_MINUTES=30
+      - REFRESH_TOKEN_EXPIRE_DAYS=7
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - ENVIRONMENT=development
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      # Prevents local dependencies from overwriting container installed libs
+      - /app/.venv
+      - /app/__pycache__
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: mantra-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+
+volumes:
+  postgres_data:
+  redis_data:

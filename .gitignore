@@ -1,0 +1,20 @@
+# Python
+backend/.venv/
+backend/__pycache__/
+backend/app/ml/weights/*.pkl
+backend/.env
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Node / Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# Operating System
+.DS_Store
+Thumbs.db
+*.log

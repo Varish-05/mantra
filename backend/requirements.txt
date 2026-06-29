@@ -1,0 +1,25 @@
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+sqlalchemy
+asyncpg
+psycopg2-binary
+alembic
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart
+pypdf
+python-docx
+sentence-transformers
+pgvector
+numpy
+pandas
+scikit-learn
+xgboost
+torch --index-url https://download.pytorch.org/whl/cpu
+reportlab
+httpx
+google-generativeai
+redis
+python-dotenv
